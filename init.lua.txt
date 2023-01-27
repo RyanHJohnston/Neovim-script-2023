@@ -1,7 +1,6 @@
 -- Personalized lua script (I'm too lazy to create an organized script)
 print("Welcome back to Neovim Ryan!")
 require'mapx'.setup{ global = true }
-
 -----------------BASIC CONFIGS (DEFAULT VIM SETUP)
 vim.o.number = true
 vim.o.textwidth = 80
@@ -36,14 +35,9 @@ vim.cmd([[colorscheme vscode]])
 
 require('packer').startup(function(use) 
   use { 'wbthomason/packer.nvim' }
+
   -- Another colorscheme 
   use "EdenEast/nightfox.nvim"
-
-  -- Vim sugar for the UNIX shell commands that need it most.
-  -- You can CRUD in your current filesystem.
-  -- Ex. :Remove /home/dovahkiin/package.json
-  -- Ex. :Move /home/dovahkiin/package.json /home/dovahkiin/
-  use { "tpope/vim-eunuch" }
 
   -- Documentation tool
   -- To generate comment:
@@ -55,13 +49,6 @@ require('packer').startup(function(use)
     'kkoomen/vim-doge',
     run = ':call doge#install()'
   }
-  
-  -- Allows to run MySQL queries from the editor
-  -- asynchronously. You can run a query, continue 
-  -- working, and have the results shown to you as soon
-  -- as the query is finished. nvim-mysql is like a 
-  -- simpler, editor-based version of MySQL Workbench.
-  use { 'jobo3208/nvim-mysql' }
 
   -- Foldtext, folds functions and sets of code.
   use{ 'anuvyklack/pretty-fold.nvim',
@@ -311,4 +298,4 @@ nnoremap ("CC", ":DogeGenerate <Tab> <Enter>")
 -- Telescope commands to make navigation easier
 nnoremap ("rr", ":Telescope find_files <Enter>")
 
-end) 
+end)
