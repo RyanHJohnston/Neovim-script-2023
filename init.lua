@@ -2,6 +2,13 @@
 print("Welcome back to Neovim Ryan!")
 require'mapx'.setup{ global = true }
 
+------------BASIC IDE REQUIREMENTS--------------------------------------------
+-- To be considered an IDE, you need the following:
+-- File explorer: preservim/nerdtree + junegunn/fzf.vim
+-- LSP + Auto-completion: built-in LSP + hrsh7th/nvim-compe
+-- Debugger: mfussenegger/nvim-dap + rcarriga/nvim-dap-ui
+-- Terminal Integration: built-in terminal or akinsho/nvim-toggleterm.lua
+
 -----------------BASIC CONFIGS (DEFAULT VIM SETUP)
 vim.o.number = true
 vim.o.textwidth = 80
@@ -32,7 +39,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.o.background = "dark" 
-vim.cmd([[colorscheme vscode]])
+vim.cmd([[colorscheme gruvbox]])
 
 require('packer').startup(function(use) 
   use { 'wbthomason/packer.nvim' }
@@ -55,13 +62,15 @@ require('packer').startup(function(use)
     'kkoomen/vim-doge',
     run = ':call doge#install()'
   }
-  
+
   -- Allows to run MySQL queries from the editor
   -- asynchronously. You can run a query, continue 
   -- working, and have the results shown to you as soon
   -- as the query is finished. nvim-mysql is like a 
   -- simpler, editor-based version of MySQL Workbench.
   use { 'jobo3208/nvim-mysql' }
+
+  use 'nanotee/sqls.nvim'
 
   -- Foldtext, folds functions and sets of code.
   use{ 'anuvyklack/pretty-fold.nvim',
@@ -214,7 +223,6 @@ use {
 -- Improved jdtls lsp Java nvim experience 
 use 'mfussenegger/nvim-jdtls'
 
-
 require'nvim-treesitter.configs'.setup {
   -- This is where you will get your much needed Autocompletion
   -- So far, this is the only config that has working Java autocompletion
@@ -311,4 +319,10 @@ nnoremap ("CC", ":DogeGenerate <Tab> <Enter>")
 -- Telescope commands to make navigation easier
 nnoremap ("rr", ":Telescope find_files <Enter>")
 
-end) 
+end)
+
+require('lspconfig').sqls.setup{
+  on_attach = function(client, bufnr)
+    require('sqls').on_attach(client, bufnr)
+  end
+}
