@@ -34,12 +34,33 @@ vim.signcolumn = "yes"
 vim.o.updatetime = 50
 vim.g.mapleader = " "
 vim.o.nu = true
-vim.o.guicursor= "v-c-sm:block,n-i-ci-ve:ver25,r-cr-o:hor20"
+-- vim.o.guicursor= "v-c-sm:block,n-i-ci-ve:ver25,r-cr-o:hor20"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.cmd([[syntax on]])
 
-vim.o.background = "dark" 
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[
+    if has('termguicolors') 
+      set termguicolors
+    endif
+]])
+vim.o.background = "dark"
+vim.cmd([[:let g:gruvbox_material_background = 'hard']])
+vim.cmd([[:let g:gruvbox_material_better_performance = 1]])
+vim.cmd([[:colorscheme gruvbox-material]])
+vim.cmd([[:set guicursor=i:block]])
+
+--        if has('termguicolors')
+--          set termguicolors
+--        endif
+
+
+
+--[[
+require('packer').startup(function(use)
+  use { 'wbthomason/packer.nvim' }
+end)
+]]--
 
 require('packer').startup(function(use) 
   use { 'wbthomason/packer.nvim' }
@@ -136,8 +157,14 @@ use {
 end
 }
 
-use 'Mofiqul/vscode.nvim'
+-- COLORSCHEMES
+use { 'Mofiqul/vscode.nvim' }
 use { "ellisonleao/gruvbox.nvim" }
+use { 'sainnhe/gruvbox-material' }
+use { 'sainnhe/everforest' }
+use { 'rose-pine/neovim' }
+use { 'rafi/awesome-vim-colorschemes' }
+use { 'kvrohit/mellow.nvim' }
 
 -- Telescope (File Finder) -- 
 use {
@@ -318,6 +345,8 @@ nnoremap ("CC", ":DogeGenerate <Tab> <Enter>")
 
 -- Telescope commands to make navigation easier
 nnoremap ("rr", ":Telescope find_files <Enter>")
+
+nnoremap("er", ":TroubleToggle <Enter>")
 
 end)
 
