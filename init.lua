@@ -1,7 +1,6 @@
 -- Personalized lua script (I'm too lazy to create an organized script)
 print("Welcome back to Neovim Ryan!")
 require'mapx'.setup{ global = true }
-
 ------------BASIC IDE REQUIREMENTS--------------------------------------------
 -- To be considered an IDE, you need the following:
 -- File explorer: preservim/nerdtree + junegunn/fzf.vim
@@ -40,122 +39,174 @@ vim.g.loaded_netrwPlugin = 1
 vim.cmd([[syntax on]])
 
 vim.cmd([[
-    if has('termguicolors') 
-      set termguicolors
-    endif
+if has('termguicolors') 
+  set termguicolors
+  endif
 ]])
-vim.o.background = "dark"
-vim.cmd([[:let g:gruvbox_material_background = 'hard']])
-vim.cmd([[:let g:gruvbox_material_better_performance = 1]])
-vim.cmd([[:colorscheme gruvbox-material]])
-vim.cmd([[:set guicursor=i:block]])
-
---        if has('termguicolors')
---          set termguicolors
---        endif
 
 
+require('rose-pine').setup({
+	--- @usage 'auto'|'main'|'moon'|'dawn'
+	variant = 'auto',
+	--- @usage 'main'|'moon'|'dawn'
+	dark_variant = 'main',
+	bold_vert_split = false,
+	dim_nc_background = false,
+	disable_background = false,
+	disable_float_background = false,
+	disable_italics = false,
 
---[[
-require('packer').startup(function(use)
-  use { 'wbthomason/packer.nvim' }
-end)
-]]--
+	--- @usage string hex value or named color from rosepinetheme.com/palette
+	groups = {
+		background = 'base',
+		panel = 'surface',
+		border = 'highlight_med',
+		comment = 'muted',
+		link = 'iris',
+		punctuation = 'subtle',
 
-require('packer').startup(function(use) 
-  use { 'wbthomason/packer.nvim' }
-  -- Another colorscheme 
-  use "EdenEast/nightfox.nvim"
+		error = 'love',
+		hint = 'iris',
+		info = 'foam',
+		warn = 'gold',
 
-  -- Vim sugar for the UNIX shell commands that need it most.
-  -- You can CRUD in your current filesystem.
-  -- Ex. :Remove /home/dovahkiin/package.json
-  -- Ex. :Move /home/dovahkiin/package.json /home/dovahkiin/
-  use { "tpope/vim-eunuch" }
+		headings = {
+			h1 = 'iris',
+			h2 = 'foam',
+			h3 = 'rose',
+			h4 = 'gold',
+			h5 = 'pine',
+			h6 = 'foam',
+		}
+		-- or set all headings at once
+		-- headings = 'subtle'
+	},
 
-  -- Documentation tool
-  -- To generate comment:
-  --    Make sure your cursor is in the method.
-  --    :DogeGenerate {doctool}
-  --    Ex. :DogeGenerate javadoc
-  --    Ti: Typing 'CC' automatically generates comment.
-  use {
-    'kkoomen/vim-doge',
-    run = ':call doge#install()'
+	-- Change specific vim highlight groups
+	-- https://github.com/rose-pine/neovim/wiki/Recipes
+	highlight_groups = {
+		ColorColumn = { bg = 'rose' },
+
+		-- Blend colours against the "base" background
+		CursorLine = { bg = 'foam', blend = 10 },
+		StatusLine = { fg = 'love', bg = 'love', blend = 10 },
+	}
+})
+
+
+  vim.o.background = "dark"
+  vim.cmd([[:let g:gruvbox_material_background = 'hard']])
+  vim.cmd([[:let g:gruvbox_material_better_performance = 1]])
+  vim.cmd([[:colorscheme ghdark]])
+  vim.cmd([[:set guicursor=i:block]])
+
+  vim.cmd([[:let g:vimtex_view_general_viewer = 'firefox']])
+  vim.cmd([[:let g:vimtex_compiler_method = 'pdflatex']])
+
+
+  --[[
+  require('packer').startup(function(use)
+    use { 'wbthomason/packer.nvim' }
+  end)
+  ]]--
+
+  require('packer').startup(function(use) 
+    use { 'wbthomason/packer.nvim' }
+    -- Another colorscheme 
+    use "EdenEast/nightfox.nvim"
+
+    -- Vim sugar for the UNIX shell commands that need it most.
+    -- You can CRUD in your current filesystem.
+    -- Ex. :Remove /home/dovahkiin/package.json
+    -- Ex. :Move /home/dovahkiin/package.json /home/dovahkiin/
+    use { "tpope/vim-eunuch" }
+
+    -- Documentation tool
+    -- To generate comment:
+    --    Make sure your cursor is in the method.
+    --    :DogeGenerate {doctool}
+    --    Ex. :DogeGenerate javadoc
+    --    Ti: Typing 'CC' automatically generates comment.
+    use {
+      'kkoomen/vim-doge',
+      run = ':call doge#install()'
+    }
+
+    -- Allows to run MySQL queries from the editor
+    -- asynchronously. You can run a query, continue 
+    -- working, and have the results shown to you as soon
+    -- as the query is finished. nvim-mysql is like a 
+    -- simpler, editor-based version of MySQL Workbench.
+    use { 'jobo3208/nvim-mysql' }
+
+    use 'nanotee/sqls.nvim'
+
+    -- Foldtext, folds functions and sets of code.
+    use{ 'anuvyklack/pretty-fold.nvim',
+    config = function()
+      require('pretty-fold').setup()
+    end
   }
 
-  -- Allows to run MySQL queries from the editor
-  -- asynchronously. You can run a query, continue 
-  -- working, and have the results shown to you as soon
-  -- as the query is finished. nvim-mysql is like a 
-  -- simpler, editor-based version of MySQL Workbench.
-  use { 'jobo3208/nvim-mysql' }
-
-  use 'nanotee/sqls.nvim'
-
-  -- Foldtext, folds functions and sets of code.
-  use{ 'anuvyklack/pretty-fold.nvim',
-  config = function()
-    require('pretty-fold').setup()
+  -- Shows errors in a much easier way
+  use {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        {
+          position = "bottom", -- position of the list can be: bottom, top, left, right
+          height = 10, -- height of the trouble list when position is top or bottom
+          width = 50, -- width of the list when position is left or right
+          icons = true, -- use devicons for filenames
+          mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+          fold_open = "", -- icon used for open folds
+          fold_closed = "", -- icon used for closed folds
+          group = true, -- group results by file
+          padding = true, -- add an extra new line on top of the list
+          action_keys = { -- key mappings for actions in the trouble list
+          -- map to {} to remove a mapping, for example:
+          -- close = {},
+          close = "q", -- close the list
+          cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+          refresh = "r", -- manually refresh
+          jump = {"<cr>", "<tab>"}, -- jump to the diagnostic or open / close folds
+          open_split = { "<c-x>" }, -- open buffer in new split
+          open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+          open_tab = { "<c-t>" }, -- open buffer in new tab
+          jump_close = {"o"}, -- jump to the diagnostic and close the list
+          toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+          toggle_preview = "P", -- toggle auto_preview
+          hover = "K", -- opens a small popup with the full multiline message
+          preview = "p", -- preview the diagnostic location
+          close_folds = {"zM", "zm"}, -- close all folds
+          open_folds = {"zR", "zr"}, -- open all folds
+          toggle_fold = {"zA", "za"}, -- toggle fold of current file
+          previous = "k", -- previous item
+          next = "j" -- next item
+        },
+        indent_lines = true, -- add an indent guide below the fold icons
+        auto_open = false, -- automatically open the list when you have diagnostics
+        auto_close = false, -- automatically close the list when you have no diagnostics
+        auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
+        auto_fold = false, -- automatically fold a file trouble list at creation
+        auto_jump = {"lsp_definitions"}, -- for the given modes, automatically jump if there is only a single result
+        signs = {
+          -- icons / text used for a diagnostic
+          error = "",
+          warning = "",
+          hint = "",
+          information = "",
+          other = "﫠"
+        },
+        use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
+      } 
+    }
   end
 }
 
--- Shows errors in a much easier way
-use {
-  "folke/trouble.nvim",
-  requires = "kyazdani42/nvim-web-devicons",
-  config = function()
-    require("trouble").setup {
-      {
-        position = "bottom", -- position of the list can be: bottom, top, left, right
-        height = 10, -- height of the trouble list when position is top or bottom
-        width = 50, -- width of the list when position is left or right
-        icons = true, -- use devicons for filenames
-        mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-        fold_open = "", -- icon used for open folds
-        fold_closed = "", -- icon used for closed folds
-        group = true, -- group results by file
-        padding = true, -- add an extra new line on top of the list
-        action_keys = { -- key mappings for actions in the trouble list
-        -- map to {} to remove a mapping, for example:
-        -- close = {},
-        close = "q", -- close the list
-        cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
-        refresh = "r", -- manually refresh
-        jump = {"<cr>", "<tab>"}, -- jump to the diagnostic or open / close folds
-        open_split = { "<c-x>" }, -- open buffer in new split
-        open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
-        open_tab = { "<c-t>" }, -- open buffer in new tab
-        jump_close = {"o"}, -- jump to the diagnostic and close the list
-        toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
-        toggle_preview = "P", -- toggle auto_preview
-        hover = "K", -- opens a small popup with the full multiline message
-        preview = "p", -- preview the diagnostic location
-        close_folds = {"zM", "zm"}, -- close all folds
-        open_folds = {"zR", "zr"}, -- open all folds
-        toggle_fold = {"zA", "za"}, -- toggle fold of current file
-        previous = "k", -- previous item
-        next = "j" -- next item
-      },
-      indent_lines = true, -- add an indent guide below the fold icons
-      auto_open = false, -- automatically open the list when you have diagnostics
-      auto_close = false, -- automatically close the list when you have no diagnostics
-      auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
-      auto_fold = false, -- automatically fold a file trouble list at creation
-      auto_jump = {"lsp_definitions"}, -- for the given modes, automatically jump if there is only a single result
-      signs = {
-        -- icons / text used for a diagnostic
-        error = "",
-        warning = "",
-        hint = "",
-        information = "",
-        other = "﫠"
-      },
-      use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
-    } 
-  }
-end
-}
+-- LaTeX plugin --
+use { 'lervag/vimtex' }
 
 -- COLORSCHEMES
 use { 'Mofiqul/vscode.nvim' }
@@ -165,6 +216,11 @@ use { 'sainnhe/everforest' }
 use { 'rose-pine/neovim' }
 use { 'rafi/awesome-vim-colorschemes' }
 use { 'kvrohit/mellow.nvim' }
+use { 'elvessousa/sobrio' }
+use { 'wesgibbs/vim-irblack' }
+use { 'jdsimcoe/hyper.vim' }
+use { 'thedenisnikulin/vim-cyberpunk' }
+use { 'vv9k/vim-github-dark' }
 
 -- Telescope (File Finder) -- 
 use {
