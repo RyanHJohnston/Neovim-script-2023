@@ -33,6 +33,7 @@ vim.signcolumn = "yes"
 vim.o.updatetime = 50
 vim.g.mapleader = " "
 vim.o.nu = true
+vim.cmd([[hi CursorLine gui=underline cterm=underline]])
 -- vim.o.guicursor= "v-c-sm:block,n-i-ci-ve:ver25,r-cr-o:hor20"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -44,62 +45,11 @@ if has('termguicolors')
   endif
 ]])
 
-
-require('rose-pine').setup({
-	--- @usage 'auto'|'main'|'moon'|'dawn'
-	variant = 'auto',
-	--- @usage 'main'|'moon'|'dawn'
-	dark_variant = 'main',
-	bold_vert_split = false,
-	dim_nc_background = false,
-	disable_background = false,
-	disable_float_background = false,
-	disable_italics = false,
-
-	--- @usage string hex value or named color from rosepinetheme.com/palette
-	groups = {
-		background = 'base',
-		panel = 'surface',
-		border = 'highlight_med',
-		comment = 'muted',
-		link = 'iris',
-		punctuation = 'subtle',
-
-		error = 'love',
-		hint = 'iris',
-		info = 'foam',
-		warn = 'gold',
-
-		headings = {
-			h1 = 'iris',
-			h2 = 'foam',
-			h3 = 'rose',
-			h4 = 'gold',
-			h5 = 'pine',
-			h6 = 'foam',
-		}
-		-- or set all headings at once
-		-- headings = 'subtle'
-	},
-
-	-- Change specific vim highlight groups
-	-- https://github.com/rose-pine/neovim/wiki/Recipes
-	highlight_groups = {
-		ColorColumn = { bg = 'rose' },
-
-		-- Blend colours against the "base" background
-		CursorLine = { bg = 'foam', blend = 10 },
-		StatusLine = { fg = 'love', bg = 'love', blend = 10 },
-	}
-})
-
-
   vim.o.background = "dark"
   vim.cmd([[:let g:gruvbox_material_background = 'hard']])
   vim.cmd([[:let g:gruvbox_material_better_performance = 1]])
-  vim.cmd([[:colorscheme ghdark]])
-  vim.cmd([[:set guicursor=i:block]])
-
+  vim.cmd([[:colorscheme rose-pine]])
+  -- vim.cmd([[:set guicursor=i:block]])
   vim.cmd([[:let g:vimtex_view_general_viewer = 'firefox']])
   vim.cmd([[:let g:vimtex_compiler_method = 'pdflatex']])
 
@@ -411,3 +361,6 @@ require('lspconfig').sqls.setup{
     require('sqls').on_attach(client, bufnr)
   end
 }
+
+-- Underlines the current Cursorline position
+vim.cmd([[hi CursorLine gui=underline cterm=underline]])
