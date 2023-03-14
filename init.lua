@@ -48,9 +48,9 @@ if has('termguicolors')
   vim.o.background = "dark"
   vim.cmd([[:let g:gruvbox_material_background = 'hard']])
   vim.cmd([[:let g:gruvbox_material_better_performance = 1]])
-  vim.cmd([[:colorscheme rose-pine]])
+  vim.cmd([[:colorscheme gruvbox-material]])
   -- vim.cmd([[:set guicursor=i:block]])
-  vim.cmd([[:let g:vimtex_view_general_viewer = 'firefox']])
+  vim.cmd([[:let g:vimtex_view_general_viewer = 'okular']])
   vim.cmd([[:let g:vimtex_compiler_method = 'pdflatex']])
 
 
@@ -352,8 +352,12 @@ nnoremap ("CC", ":DogeGenerate <Tab> <Enter>")
 -- Telescope commands to make navigation easier
 nnoremap ("rr", ":Telescope find_files <Enter>")
 
+-- Shows errors
 nnoremap("er", ":TroubleToggle <Enter>")
 
+-- LaTeX compile command
+
+nnoremap("tk", ":VimtexCompile <Enter>")
 end)
 
 require('lspconfig').sqls.setup{
